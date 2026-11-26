@@ -131,6 +131,9 @@
     { id: 'about', title: 'About', items: [
       { k: 'aboutNote', label: 'Handwritten line above your name', def: 'who is this?' },
       { k: 'about', label: 'About text', type: 'long', def: 'I restore and study pre-colonial and colonial-era coins found across 25 districts, and I use them to teach local history. A coin is small enough to hold and old enough to remember.' },
+      { k: 'photoUrl', label: 'Your photo: Google Drive link', def: '', hint: 'In Google Drive set the photo to Share → Anyone with the link → Viewer, then paste the link. Leave empty to hide the photo.' },
+      { k: 'interestsTitle', label: 'Interests: small title', def: 'things I love' },
+      { k: 'interests', label: 'Interests', type: 'list', def: [], hint: 'One per line, for example: Old coins, Local history, Photography. Leave empty to hide this part.' },
       { k: 'histHash', label: 'Small line about Hist-Hash', def: 'I also chair Hist-Hash, a collector network.', hint: 'Leave empty to remove it completely.' },
       { k: 'factCoins', label: 'Fact label: coins', def: 'Coins restored' },
       { k: 'factDistricts', label: 'Fact label: districts', def: 'Districts explored' },
@@ -164,6 +167,8 @@
         if (Array.isArray(v) && v.length) out.chapters = v.filter((c) => c && typeof c === 'object').map((c) => ({ tag: String(c.tag || ''), title: String(c.title || ''), text: String(c.text || '') }));
       } else if (k === 'phases') {
         if (Array.isArray(v) && v.length) out.phases = v.filter((c) => c && typeof c === 'object').map((c, i) => ({ id: String(c.id || 'p' + (i + 1)), tag: String(c.tag || ''), title: String(c.title || '') }));
+      } else if (k === 'interests') {
+        if (Array.isArray(v)) out.interests = v.map(String).map((s) => s.trim()).filter(Boolean);
       } else if (k === 'themes') {
         if (Array.isArray(v)) out.themes = v.map(String).map((s) => s.trim()).filter(Boolean);
       } else if (typeof v === 'string' || typeof v === 'number') out[k] = String(v);

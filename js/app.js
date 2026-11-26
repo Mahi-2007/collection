@@ -38,6 +38,15 @@
     $('#year').textContent = new Date().getFullYear();
     $('#aboutName').textContent = C.name;
     $('#aboutText').textContent = C.about;
+    const ph = $('#portrait'), pi = $('#portraitImg'), url = String(C.photoUrl || '').trim();
+    if (url) {
+      pi.onerror = () => { ph.hidden = true; $('.about-grid').classList.remove('has-photo'); };
+      pi.src = Data.imgUrl(url, 1200); pi.alt = C.name; ph.hidden = false; $('.about-grid').classList.add('has-photo');
+    }
+    const ints = C.interests || [];
+    $('#interests').hidden = !ints.length;
+    $('#interestsTitle').textContent = C.interestsTitle;
+    $('#interestList').innerHTML = ints.map((t) => '<li>' + esc(t) + '</li>').join('');
     const hh = $('#histHash'); if (C.histHash) hh.textContent = C.histHash; else hh.remove();
 
     $('#heroMeta').innerHTML = '<span>' + esc(C.coinsCount) + ' ' + esc(C.chipCoins) + '</span><span>' + esc(C.districtsCount) + ' ' + esc(C.chipDistricts) + '</span>';
@@ -117,39 +126,84 @@
     $('#unlock').addEventListener('click', unlock);
   }
 
-  /* ================= TIMELINE (groups of coins) ================= */
+  /* ================= TIMELINE: a border that runs around the trunk ================= */
+  const NS = 'http://www.w3.org/2000/svg';
   function buildTimeline() {
-    const tl = $('#tl'), ph = C.phases || [];
+    const ph = C.phases || [];
     state.runOf = null; state.tl = null;
-    const given = state.coins.some((c) => ph.some((p) => p.id === c.phase));
-    if (!given) { tl.hidden = true; return; }
+    $('#ring').innerHTML = ''; $('#tlNow').hidden = true; $('#tlLeg').hidden = true; $('#pframe').classList.remove('has-tl');
+    if (!state.coins.some((c) => ph.some((p) => p.id === c.phase))) return;
     let cur = 0; const idxs = state.coins.map((c) => { const k = ph.findIndex((p) => p.id === c.phase); if (k >= 0) cur = k; return cur; });
     const runs = [];
     idxs.forEach((k, i) => { const r = runs[runs.length - 1]; if (r && r.k === k) r.to = i; else runs.push({ k: k, from: i, to: i }); });
     state.runOf = []; runs.forEach((r, ri) => { for (let i = r.from; i <= r.to; i++) state.runOf[i] = ri; });
-    tl.hidden = false;
-    tl.innerHTML = runs.map((r, ri) => {
-      const p = ph[r.k], m = r.to - r.from + 1;
-      let dots = '';
-      for (let i = r.from; i <= r.to; i++) dots += '<button type="button" class="tl-dot" data-i="' + i + '" style="left:' + (((i - r.from + .5) / m) * 100).toFixed(2) + '%" aria-label="' + esc(C.cntWord) + ' ' + (i + 1) + '"></button>';
-      return '<li class="tl-seg" data-r="' + ri + '" style="flex:' + (m + 2) + ' 1 0"><div class="tl-lab"><b class="tl-tag">' + esc(p.tag) + '</b><span class="tl-name">' + esc(p.title) + '</span></div>' +
-        '<div class="tl-track"><i class="tl-line"></i><i class="tl-fill"></i>' + dots + '</div></li>';
-    }).join('');
-    state.tl = { runs: runs, segs: $$('.tl-seg', tl).map((el) => ({ el: el, fill: $('.tl-fill', el) })), dots: $$('.tl-dot', tl) };
-    tl.addEventListener('click', (e) => {
-      const d = e.target.closest('.tl-dot'); if (!d) return;
-      const n = state.coins.length, span = Math.max(1, L.run.h - VH);
-      window.scrollTo({ top: L.run.top + (Number(d.dataset.i) + .25) / n * span, behavior: REDUCED ? 'auto' : 'smooth' });
-    });
+    state.tl = { runs: runs, ph: ph, run: -1, idx: -1 };
+    $('#pframe').classList.add('has-tl');
+    $('#tlLeg').innerHTML = runs.map((r) => '<li><b>' + esc(ph[r.k].tag) + '</b><span>' + esc(ph[r.k].title) + '</span></li>').join('');
+    $('#tlLeg').hidden = false;
+    if (!$('#ring').dataset.bound) {
+      $('#ring').dataset.bound = 1;
+      $('#ring').addEventListener('click', (e) => {
+        const d = e.target.closest('[data-i]'); if (!d) return;
+        const n = state.coins.length, span = Math.max(1, L.run.h - VH);
+        window.scrollTo({ top: L.run.top + (Number(d.dataset.i) + .25) / n * span, behavior: REDUCED ? 'auto' : 'smooth' });
+      });
+    }
   }
-  let tlLast = -1;
-  function tlUpdate(t, idx) {
+
+  // draws the border around the trunk frame and puts the coin dots and group chips on it (re-run when the size changes)
+  function layoutRing() {
     const T = state.tl; if (!T) return;
-    T.segs.forEach((sg, k) => { const r = T.runs[k], v = clamp((t - r.from) / (r.to - r.from + 1)); sg.fill.style.transform = 'scaleX(' + v.toFixed(3) + ')'; });
-    if (idx === tlLast) return; tlLast = idx;
+    const f = $('#pframe'), w = f.offsetWidth, h = f.offsetHeight; if (!w || !h) return;
+    const x0 = 6, x1 = w - 6, y0 = 30, y1 = h - 6, r = Math.min(24, (x1 - x0) / 4);
+    const d = 'M' + (x0 + r) + ' ' + y0 + 'H' + (x1 - r) + 'A' + r + ' ' + r + ' 0 0 1 ' + x1 + ' ' + (y0 + r) + 'V' + (y1 - r) + 'A' + r + ' ' + r + ' 0 0 1 ' + (x1 - r) + ' ' + y1 +
+      'H' + (x0 + r) + 'A' + r + ' ' + r + ' 0 0 1 ' + x0 + ' ' + (y1 - r) + 'V' + (y0 + r) + 'A' + r + ' ' + r + ' 0 0 1 ' + (x0 + r) + ' ' + y0;
+    const ring = $('#ring'); ring.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    ring.innerHTML = '<defs><linearGradient id="ringG" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="' + w + '" y2="' + h + '"><stop offset="0" stop-color="#e0b25a"/><stop offset="1" stop-color="#6cc3ac"/></linearGradient></defs>' +
+      '<path class="ring-track" d="' + d + '"/><path class="ring-fill" d="' + d + '"/>';
+    const track = $('.ring-track', ring), fill = $('.ring-fill', ring), len = track.getTotalLength(), n = state.coins.length;
+    fill.style.strokeDasharray = len; fill.style.strokeDashoffset = len;
+    const at = (fr) => track.getPointAtLength(len * fr);
+    const mk = (tag, attrs, parent) => { const el = document.createElementNS(NS, tag); Object.keys(attrs).forEach((k) => el.setAttribute(k, attrs[k])); (parent || ring).appendChild(el); return el; };
+    const dots = [], chips = [];
+    for (let i = 0; i < n; i++) {
+      const p = at((i + .5) / n), g = mk('g', { class: 'rdot', 'data-i': i, transform: 'translate(' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ')' });
+      g.setAttribute('role', 'button'); g.setAttribute('aria-label', C.cntWord + ' ' + (i + 1));
+      mk('circle', { class: 'hit', r: 11 }, g); mk('circle', { class: 'd', r: 5 }, g); dots.push(g);
+    }
+    T.runs.forEach((rr, k) => {
+      const p = at(rr.from / n), g = mk('g', { class: 'rchip', 'data-i': rr.from, transform: 'translate(' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ')' });
+      mk('circle', { r: 14 }, g); const t = mk('text', {}, g); t.textContent = T.ph[rr.k].tag; chips.push(g);
+    });
+    T.len = len; T.fill = fill; T.dots = dots; T.chips = chips; T.idx = -1; T.run = -1;
+  }
+
+  function tlUpdate(t, idx) {
+    const T = state.tl; if (!T || !T.fill) return;
+    T.fill.style.strokeDashoffset = (T.len * (1 - clamp(t / state.coins.length))).toFixed(1);
+    if (idx === T.idx) return; T.idx = idx;
     const cur = state.runOf[idx];
-    T.segs.forEach((sg, k) => { sg.el.classList.toggle('on', k === cur); sg.el.classList.toggle('past', k < cur); });
-    T.dots.forEach((d) => { const i = Number(d.dataset.i); d.classList.toggle('pass', i < idx); d.classList.toggle('cur', i === idx); });
+    T.dots.forEach((d, i) => { d.classList.toggle('pass', i < idx); d.classList.toggle('cur', i === idx); });
+    T.chips.forEach((c, k) => { c.classList.toggle('on', k === cur); c.classList.toggle('past', k < cur); });
+    $$('#tlLeg li').forEach((li, k) => li.classList.toggle('on', k === cur));
+    if (cur !== T.run) {
+      T.run = cur; const p = T.ph[T.runs[cur].k], now = $('#tlNow');
+      now.hidden = false; now.innerHTML = '<b>' + esc(p.tag) + '</b><span>' + esc(p.title) + '</span>';
+      now.classList.remove('swap'); void now.offsetWidth; now.classList.add('swap');
+    }
+  }
+
+  // make the card fit the screen: shrink the story text a little first; if it still does not fit, the story scrolls inside the card (nothing is ever cut off)
+  function fitCard() {
+    const card = $('#card'), st = $('.story-text', card); if (!st || !state.open) return;
+    st.style.fontSize = ''; st.style.maxHeight = ''; st.classList.remove('scroll');
+    const stacked = innerWidth <= 900, avail = VH - 28 - (stacked ? $('#pframe').offsetHeight + (state.tl ? 34 : 0) + 14 : 0);
+    let size = parseFloat(getComputedStyle(st).fontSize); const min = Math.max(12.5, size * .8);
+    while (card.offsetHeight > avail && size > min) { size -= .5; st.style.fontSize = size + 'px'; }
+    if (card.offsetHeight > avail) {
+      const lh = parseFloat(getComputedStyle(st).lineHeight) || size * 1.5;
+      st.style.maxHeight = Math.max(lh * 3, st.offsetHeight - (card.offsetHeight - avail)) + 'px'; st.classList.add('scroll');
+    }
   }
 
   function unlock() {
@@ -157,7 +211,7 @@
     if (state.open || v.classList.contains('opening')) return;
     v.classList.add('opening'); burst = 1;
     setTimeout(() => {
-      v.dataset.state = 'open'; state.open = true;
+      v.dataset.state = 'open'; state.open = true; layoutRing();
       const col = $('#collection'); col.style.setProperty('--n', state.coins.length); col.classList.add('run');
       select(0);
       measure();
@@ -188,10 +242,10 @@
     $('#card').innerHTML =
       '<div class="anim">' +
       '<div class="cnt"><span>' + esc(C.cntWord) + ' ' + pad(state.sel + 1) + ' ' + esc(C.ofWord) + ' ' + pad(n) + '</span><em>' + esc(state.sel < n - 1 ? C.hintMore : C.hintLast) + '</em></div>' +
-      '<div class="coin-wrap" data-front="' + esc(c.front) + '" data-back="' + esc(c.back || c.front) + '">' +
+      '<div class="card-top"><div class="coin-wrap" data-front="' + esc(c.front) + '" data-back="' + esc(c.back || c.front) + '">' +
         '<div class="flipper"><div class="coin-face' + nf(c) + '"><img decoding="async" src="' + esc(c.front) + '" alt="' + esc(c.title) + ', front"></div>' +
         '<div class="coin-face back' + nf(c) + '"><img decoding="async" src="' + esc(c.back || c.front) + '" alt="' + esc(c.title) + ', back"></div></div><i class="lens"></i></div>' +
-      '<h3>' + esc(c.title) + '</h3>' +
+        '<h3>' + esc(c.title) + '</h3></div>' +
       infoGrid(c, true) +
       (c.story ? '<p class="story-text">' + esc(c.story) + '</p>' : '') +
       '</div>';
@@ -199,6 +253,7 @@
       im.onerror = null; im.src = Data.placeholder(state.sel, im.closest('.coin-face').classList.contains('back'));
     }, { once: true }));
     state.fl = $('#card .flipper');
+    fitCard();
     // magnifier on hover (desktop only, no click needed)
     const wrap = $('#card .coin-wrap'), lens = $('.lens', wrap);
     if (FINE) wrap.addEventListener('mousemove', (e) => {
@@ -538,6 +593,7 @@
     const rect = (e) => { const r = e.getBoundingClientRect(); return { top: r.top + scrollY, h: r.height }; };
     L.story = rect($('#story')); L.col = rect($('#collection')); L.run = rect($('#colRun'));
     L.secs = SECTIONS.map((s) => ({ id: s[0], top: rect($('#' + s[0])).top }));
+    if (state.open) { layoutRing(); fitCard(); }
     if (dustW !== VW || dustH !== VH) { dustW = VW; dustH = VH; dustResize(); }
   }
 
