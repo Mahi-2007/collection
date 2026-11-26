@@ -6,10 +6,10 @@ window.SITE = {
   // Firebase web-app config (Firebase console > Project settings > Your apps).
   // Leave as null to preview the site with sample coins and the default wording.
   firebase: {
-    apiKey: 'AIzaSyCZ23Y_WAUjUpO87LUBDQBmxmvoWhm_gfY',
-    authDomain: 'mahi-dccef.firebaseapp.com',
-    projectId: 'mahi-dccef',
-    appId: '1:857315575231:web:bf5e0e79363c587cc40d0a'
+    apiKey: 'PASTE_API_KEY',
+    authDomain: 'PASTE_PROJECT_ID.firebaseapp.com',
+    projectId: 'PASTE_PROJECT_ID',
+    appId: 'PASTE_APP_ID'
   },
   collection: 'coins'
 };

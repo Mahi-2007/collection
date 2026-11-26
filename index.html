@@ -135,9 +135,8 @@
         </div>
 
         <!-- open -->
-        <ol class="tl" id="tl" aria-label="Timeline"></ol>
         <div class="vault-open">
-          <div class="pile" id="pile">
+          <div class="pcol"><div class="pframe" id="pframe"><svg class="ring" id="ring" aria-hidden="true"></svg><div class="tl-now" id="tlNow" hidden></div><div class="pile" id="pile">
             <svg class="trunk-back" viewBox="0 0 640 440" aria-hidden="true">
               <defs>
                 <filter id="ob_blur" x="-20%" y="-300%" width="140%" height="700%"><feGaussianBlur stdDeviation="11"/></filter>
@@ -184,7 +183,7 @@
               <circle cx="280" cy="247" r="6.5" fill="#150b06"/>
               <path d="M277 251 h6 l2.5 16 h-11 z" fill="#150b06"/>
             </svg>
-          </div>
+          </div></div><ol class="tl-leg" id="tlLeg" hidden></ol></div>
           <div class="card" id="card" aria-live="polite"></div>
         </div>
       </div>
@@ -222,7 +221,11 @@
       <p class="note reveal" data-t="aboutNote">who is this?</p>
       <h2 class="big reveal" id="aboutName"></h2>
       <div class="about-grid">
-        <p class="lead reveal" id="aboutText"></p>
+        <figure class="portrait reveal" id="portrait" hidden><img id="portraitImg" alt="" decoding="async"></figure>
+        <div class="about-main reveal">
+          <p class="lead" id="aboutText"></p>
+          <div class="interests" id="interests" hidden><p class="note" id="interestsTitle"></p><ul id="interestList"></ul></div>
+        </div>
         <ul class="facts reveal" id="facts"></ul>
       </div>
       <p class="hist reveal" id="histHash"></p>

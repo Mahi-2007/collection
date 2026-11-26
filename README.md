@@ -14,7 +14,7 @@ Plain HTML/CSS/JS. Firebase (Firestore + Email/Password Auth) only. Deploy the f
 
 ## What is new in this version
 - **Frame off** now only removes the round frame. Zooming, glow and shadows work the same.
-- **Trunk timeline:** name the groups in *Site text → Trunk timeline (groups)* (no years needed), then pick a group on each coin. A coin with no group stays in the group of the coin before it. The timeline appears above the open trunk and follows the scroll.
+- **Trunk timeline:** name the groups in *Site text → Trunk timeline (groups)* (no years needed), then pick a group on each coin. A coin with no group stays in the group of the coin before it. The timeline is a border that runs around the open trunk: it fills as you scroll, the group chips (I, II, III…) sit on it, the current group name shows on a tab at the top, and tapping a dot jumps to that coin.
 - **Coin details** are shown in one even grid, so short and long values line up.
 - **Treasure game** is now a vintage 3D map. The visitor taps 3 of the 5 places, then an explorer walks the route and leaves a dotted trail. At the end the visitor's own teal trunk shows every saved coin with its details, story and explanation.
 - **Line-sketch map** (British India → Pakistan → Bangladesh) sits above the "Why does a coin matter?" title. The ending coin shows Bangladesh on one side and British India on the other. All their words are editable in *Site text → History map*.
@@ -42,3 +42,6 @@ Every word on the site is editable and saved to `settings/site`. The ↺ button 
 
 ## 4. Preview without Firebase
 Set `firebase: null` in `site-config.js` to see sample coins and the full game locally.
+
+## About section: photo and interests
+In *Site text → About*, paste your photo's Google Drive link (Anyone with the link: Viewer) and list your interests, one per line. Both are optional; leave them empty to hide them.
