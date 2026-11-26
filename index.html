@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ashraful Islam Mahi · Forgotten history, kept in coins</title>
+<meta name="description" content="A personal archive of forgotten history, told through restored coins.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#140d08">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Figtree:wght@400;500;600&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="loading">
+
+<div id="preloader" aria-hidden="true">
+  <div class="pre-coin"><span class="pc-in"><span class="bf" id="preF"></span><span class="bf bf-back" id="preB"></span></span></div>
+  <div class="pre-count"><span id="preNum">0</span><small>%</small></div>
+  <p class="pre-line" data-t="preloadLine">dusting off the past</p>
+</div>
+
+<canvas id="dust" aria-hidden="true"></canvas>
+<div id="cursor" aria-hidden="true"><i></i></div>
+<div id="progress" aria-hidden="true"><i></i></div>
+
+<header id="nav">
+  <a class="brand" href="#hero" data-magnet id="brandName">Mahi</a>
+  <nav aria-label="Main">
+    <a href="#story" data-t="navStory">Story</a>
+    <a href="#collection" data-t="navCollection">Collection</a>
+    <a href="#about" data-t="navAbout">About</a>
+    <a href="#thanks" data-t="navHello">Say hello</a>
+  </nav>
+</header>
+<aside id="dots" aria-hidden="true"></aside>
+
+<main>
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-coin" id="heroCoin">
+      <div class="ringdash" aria-hidden="true"></div>
+      <div class="stage" id="heroStage"><div class="coin3d" id="coin3d"></div></div>
+      <p class="note psst fade-up" aria-hidden="true" data-t="heroNote">psst, just keep scrolling</p>
+    </div>
+    <div class="hero-copy" id="heroCopy">
+      <p class="eyebrow fade-up" data-t="heroEyebrow">A personal archive of forgotten history</p>
+      <h1>
+        <span class="line"><span data-t="heroLine1">I see history in</span></span>
+        <span class="line"><span data-t="heroLine2">objects most people</span></span>
+        <span class="line"><span><em data-t="heroLine3">overlook.</em></span></span>
+      </h1>
+      <p class="sub fade-up" data-t="heroSub">&hellip;and I bring those histories to life.</p>
+      <p class="hero-meta fade-up" id="heroMeta"></p>
+    </div>
+    <a class="scroll-cue fade-up" href="#story" aria-label="Scroll down"><span data-t="scrollCue">Scroll</span><i></i></a>
+  </section>
+
+  <!-- STORY: three luggage tags -->
+  <section id="story" class="story">
+    <div class="wrap">
+      <figure class="mapfig reveal" id="mapFig"></figure>
+      <p class="note reveal" data-t="storyNote">three small questions</p>
+      <h2 class="h2 reveal" data-t="storyTitle">Why does a coin matter?</h2>
+      <div class="tagrow reveal" id="tagRow">
+        <svg class="string" viewBox="0 0 1000 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 8 Q500 46 1000 8" fill="none" stroke="#b88d43" stroke-width="3"/></svg>
+        <ul class="tags" id="tags"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLLECTION: the trunk -->
+  <section id="collection" class="collection">
+    <div class="col-glow" aria-hidden="true"></div>
+    <div class="col-run" id="colRun"><div class="col-pin"><div class="wrap">
+      <div class="col-head reveal">
+        <p class="note" id="colNote" data-t="trunkNote">the collection</p>
+        <h2 class="h2" id="colTitle" data-th="trunkTitle">Every family has a <em>trunk.</em></h2>
+        <p class="col-sub" id="colSub" data-t="trunkLine">This one is mine. Open it and see what is inside.</p>
+      </div>
+
+      <div class="vault" id="vault" data-state="locked">
+        <!-- locked -->
+        <div class="vault-lock">
+          <svg class="trunk-closed" viewBox="0 0 640 440" role="img" aria-label="A closed antique leather and brass trunk">
+            <defs>
+              <filter id="lk_blur" x="-20%" y="-300%" width="140%" height="700%"><feGaussianBlur stdDeviation="11"/></filter>
+              <filter id="lk_grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .6 -.2"/></filter>
+              <linearGradient id="lk_front" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b2318"/><stop offset="1" stop-color="#22120b"/></linearGradient>
+              <linearGradient id="lk_lidfront" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a2c1e"/><stop offset="1" stop-color="#30190f"/></linearGradient>
+              <linearGradient id="lk_top" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#4f3123"/><stop offset="1" stop-color="#6e4834"/></linearGradient>
+              <linearGradient id="lk_gloss" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/></linearGradient>
+              <linearGradient id="lk_side" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#241209"/><stop offset="1" stop-color="#140904"/></linearGradient>
+              <linearGradient id="lk_brass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ebd18a"/><stop offset=".45" stop-color="#b88d43"/><stop offset="1" stop-color="#6e4f1d"/></linearGradient>
+              <linearGradient id="lk_strap" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7b5a24"/><stop offset=".35" stop-color="#e3c57c"/><stop offset=".7" stop-color="#b08540"/><stop offset="1" stop-color="#6a4a1b"/></linearGradient>
+              <radialGradient id="lk_glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#f5d98f" stop-opacity=".5"/><stop offset="1" stop-color="#f5d98f" stop-opacity="0"/></radialGradient>
+              <clipPath id="lk_shell"><path d="M70 150 L120 112 L540 112 L540 328 L490 365 L70 365 Z"/></clipPath>
+            </defs>
+            <ellipse cx="305" cy="372" rx="275" ry="13" fill="#000" opacity=".8" filter="url(#lk_blur)"/>
+            <polygon points="490,150 540,112 540,328 490,365" fill="url(#lk_side)"/>
+            <rect x="70" y="215" width="420" height="150" fill="url(#lk_front)"/>
+            <rect x="70" y="150" width="420" height="68" fill="url(#lk_lidfront)"/>
+            <polygon points="70,150 490,150 540,112 120,112" fill="url(#lk_top)"/>
+            <polygon points="70,150 490,150 540,112 120,112" fill="url(#lk_gloss)"/>
+            <g clip-path="url(#lk_shell)"><rect width="640" height="440" filter="url(#lk_grain)" opacity=".5"/></g>
+            <g stroke="#000" stroke-opacity=".38" stroke-width="1.5"><line x1="70" y1="252" x2="490" y2="252"/><line x1="70" y1="289" x2="490" y2="289"/><line x1="70" y1="326" x2="490" y2="326"/></g>
+            <g stroke="#fff" stroke-opacity=".06"><line x1="70" y1="253.5" x2="490" y2="253.5"/><line x1="70" y1="290.5" x2="490" y2="290.5"/><line x1="70" y1="327.5" x2="490" y2="327.5"/></g>
+            <g stroke="#e3c57c" stroke-opacity=".38" stroke-dasharray="3 4"><line x1="76" y1="203" x2="484" y2="203"/><line x1="76" y1="356" x2="484" y2="356"/></g>
+            <polygon points="132,150 150,150 200,112 182,112" fill="url(#lk_strap)" opacity=".95"/>
+            <polygon points="410,150 428,150 478,112 460,112" fill="url(#lk_strap)" opacity=".95"/>
+            <rect x="132" y="150" width="18" height="215" fill="url(#lk_strap)" stroke="#4a3412" stroke-opacity=".5"/>
+            <rect x="410" y="150" width="18" height="215" fill="url(#lk_strap)" stroke="#4a3412" stroke-opacity=".5"/>
+            <g fill="#6d4e1b" stroke="#f0d899" stroke-opacity=".5" stroke-width=".8"><circle cx="141" cy="170" r="2.4"/><circle cx="141" cy="238" r="2.4"/><circle cx="141" cy="300" r="2.4"/><circle cx="141" cy="346" r="2.4"/><circle cx="419" cy="170" r="2.4"/><circle cx="419" cy="238" r="2.4"/><circle cx="419" cy="300" r="2.4"/><circle cx="419" cy="346" r="2.4"/></g>
+            <rect x="70" y="212" width="420" height="8" fill="url(#lk_brass)"/>
+            <polygon points="490,212 540,174 540,182 490,220" fill="url(#lk_brass)"/>
+            <rect x="70" y="146" width="420" height="5" fill="url(#lk_brass)"/>
+            <line x1="490" y1="148" x2="540" y2="110" stroke="#c9a152" stroke-width="4" stroke-linecap="round"/>
+            <line x1="70" y1="150" x2="120" y2="112" stroke="#8a6a2e" stroke-width="3"/>
+            <line x1="120" y1="112" x2="540" y2="112" stroke="#6f4f1d" stroke-width="3"/>
+            <g fill="url(#lk_brass)" stroke="#4d3512"><rect x="64" y="329" width="34" height="38" rx="3"/><rect x="462" y="329" width="34" height="38" rx="3"/><rect x="64" y="144" width="34" height="40" rx="3"/><rect x="462" y="144" width="34" height="40" rx="3"/></g>
+            <g fill="#5a3f14" stroke="#f0d899" stroke-opacity=".5" stroke-width=".8"><circle cx="76" cy="341" r="2.2"/><circle cx="86" cy="356" r="2.2"/><circle cx="474" cy="341" r="2.2"/><circle cx="484" cy="356" r="2.2"/><circle cx="76" cy="156" r="2.2"/><circle cx="86" cy="172" r="2.2"/><circle cx="474" cy="156" r="2.2"/><circle cx="484" cy="172" r="2.2"/></g>
+            <circle class="lock-glow" cx="280" cy="226" r="80" fill="url(#lk_glow)"/>
+            <rect x="266" y="150" width="28" height="52" rx="3" fill="url(#lk_brass)" stroke="#5b4116"/>
+            <rect x="252" y="190" width="56" height="70" rx="6" fill="url(#lk_brass)" stroke="#5b4116" stroke-width="1.5"/>
+            <rect x="258" y="196" width="44" height="58" rx="3" fill="none" stroke="#3b2a0d" stroke-opacity=".45"/>
+            <circle cx="280" cy="222" r="6.5" fill="#150b06"/>
+            <path d="M277 226 h6 l2.5 16 h-11 z" fill="#150b06"/>
+            <g fill="#4d3512"><circle cx="262" cy="201" r="1.8"/><circle cx="298" cy="201" r="1.8"/><circle cx="262" cy="249" r="1.8"/><circle cx="298" cy="249" r="1.8"/></g>
+          </svg>
+          <button class="btn brass big-btn" id="unlock" type="button" data-magnet>
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="8" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 12h9M18 12v4M21 12v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-t="unlockLabel">Unlock the trunk</span>
+          </button>
+          <p class="note" data-t="unlockNote">just one tap</p>
+        </div>
+
+        <!-- open -->
+        <ol class="tl" id="tl" aria-label="Timeline"></ol>
+        <div class="vault-open">
+          <div class="pile" id="pile">
+            <svg class="trunk-back" viewBox="0 0 640 440" aria-hidden="true">
+              <defs>
+                <filter id="ob_blur" x="-20%" y="-300%" width="140%" height="700%"><feGaussianBlur stdDeviation="11"/></filter>
+                <linearGradient id="ob_velvet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a1a1d"/><stop offset="1" stop-color="#2a0b0e"/></linearGradient>
+                <linearGradient id="ob_leather" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b2318"/><stop offset="1" stop-color="#22120b"/></linearGradient>
+                <radialGradient id="ob_in" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#f8e3a8" stop-opacity=".95"/><stop offset=".5" stop-color="#d9a84e" stop-opacity=".4"/><stop offset="1" stop-color="#0a0504" stop-opacity="0"/></radialGradient>
+                <linearGradient id="ob_brass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ebd18a"/><stop offset=".45" stop-color="#b88d43"/><stop offset="1" stop-color="#6e4f1d"/></linearGradient>
+              </defs>
+              <ellipse cx="305" cy="372" rx="275" ry="13" fill="#000" opacity=".8" filter="url(#ob_blur)"/>
+              <polygon points="112,182 528,182 512,22 128,22" fill="url(#ob_leather)" stroke="#b88d43" stroke-width="3" stroke-linejoin="round"/>
+              <polygon points="126,174 514,174 501,36 139,36" fill="url(#ob_velvet)" stroke="#e3c57c" stroke-opacity=".5" stroke-width="1.5"/>
+              <g stroke="#000" stroke-opacity=".4" stroke-width="1.2" fill="none"><path d="M229 36 L221 174"/><path d="M320 36 L320 174"/><path d="M411 36 L419 174"/><path d="M135 82 L505 82"/><path d="M131 128 L509 128"/></g>
+              <g fill="url(#ob_brass)" stroke="#4d3512" stroke-width=".6"><circle cx="226" cy="82" r="3"/><circle cx="320" cy="82" r="3"/><circle cx="414" cy="82" r="3"/><circle cx="224" cy="128" r="3"/><circle cx="320" cy="128" r="3"/><circle cx="416" cy="128" r="3"/></g>
+              <g fill="url(#ob_brass)" stroke="#4d3512"><rect x="150" y="172" width="34" height="14" rx="2"/><rect x="456" y="172" width="34" height="14" rx="2"/></g>
+              <polygon points="70,215 490,215 540,177 120,177" fill="#0a0504"/>
+              <ellipse cx="305" cy="198" rx="190" ry="17" fill="url(#ob_in)"/>
+            </svg>
+            <div class="beam" aria-hidden="true"></div>
+            <div class="pcoins" id="pcoins"></div>
+            <svg class="trunk-front" viewBox="0 0 640 440" aria-hidden="true">
+              <defs>
+                <filter id="of_grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .6 -.2"/></filter>
+                <linearGradient id="of_front" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b2318"/><stop offset="1" stop-color="#22120b"/></linearGradient>
+                <linearGradient id="of_side" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#241209"/><stop offset="1" stop-color="#140904"/></linearGradient>
+                <linearGradient id="of_spill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f5d98f" stop-opacity=".22"/><stop offset="1" stop-color="#f5d98f" stop-opacity="0"/></linearGradient>
+                <linearGradient id="of_brass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ebd18a"/><stop offset=".45" stop-color="#b88d43"/><stop offset="1" stop-color="#6e4f1d"/></linearGradient>
+                <linearGradient id="of_strap" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7b5a24"/><stop offset=".35" stop-color="#e3c57c"/><stop offset=".7" stop-color="#b08540"/><stop offset="1" stop-color="#6a4a1b"/></linearGradient>
+                <clipPath id="of_shell"><path d="M70 215 L490 215 L540 177 L540 328 L490 365 L70 365 Z"/></clipPath>
+              </defs>
+              <polygon points="490,215 540,177 540,328 490,365" fill="url(#of_side)"/>
+              <rect x="70" y="215" width="420" height="150" fill="url(#of_front)"/>
+              <rect x="70" y="215" width="420" height="70" fill="url(#of_spill)"/>
+              <g clip-path="url(#of_shell)"><rect width="640" height="440" filter="url(#of_grain)" opacity=".5"/></g>
+              <g stroke="#000" stroke-opacity=".38" stroke-width="1.5"><line x1="70" y1="252" x2="490" y2="252"/><line x1="70" y1="289" x2="490" y2="289"/><line x1="70" y1="326" x2="490" y2="326"/></g>
+              <g stroke="#e3c57c" stroke-opacity=".38" stroke-dasharray="3 4"><line x1="76" y1="356" x2="484" y2="356"/></g>
+              <rect x="132" y="215" width="18" height="150" fill="url(#of_strap)" stroke="#4a3412" stroke-opacity=".5"/>
+              <rect x="410" y="215" width="18" height="150" fill="url(#of_strap)" stroke="#4a3412" stroke-opacity=".5"/>
+              <g fill="#6d4e1b" stroke="#f0d899" stroke-opacity=".5" stroke-width=".8"><circle cx="141" cy="238" r="2.4"/><circle cx="141" cy="300" r="2.4"/><circle cx="141" cy="346" r="2.4"/><circle cx="419" cy="238" r="2.4"/><circle cx="419" cy="300" r="2.4"/><circle cx="419" cy="346" r="2.4"/></g>
+              <rect x="70" y="211" width="420" height="8" fill="url(#of_brass)"/>
+              <line x1="490" y1="213" x2="540" y2="175" stroke="#c9a152" stroke-width="4" stroke-linecap="round"/>
+              <g fill="url(#of_brass)" stroke="#4d3512"><rect x="64" y="329" width="34" height="38" rx="3"/><rect x="462" y="329" width="34" height="38" rx="3"/></g>
+              <rect x="252" y="219" width="56" height="64" rx="6" fill="url(#of_brass)" stroke="#5b4116" stroke-width="1.5"/>
+              <rect x="258" y="225" width="44" height="52" rx="3" fill="none" stroke="#3b2a0d" stroke-opacity=".45"/>
+              <circle cx="280" cy="247" r="6.5" fill="#150b06"/>
+              <path d="M277 251 h6 l2.5 16 h-11 z" fill="#150b06"/>
+            </svg>
+          </div>
+          <div class="card" id="card" aria-live="polite"></div>
+        </div>
+      </div>
+    </div></div></div>
+  </section>
+
+  <!-- QUEST: fill your own trunk (optional) -->
+  <section id="quest" class="quest">
+    <div class="wrap">
+      <div class="q-prompt" id="qPrompt">
+        <p class="note reveal" data-t="questNote">one more thing</p>
+        <h2 class="h2 reveal" data-t="questTitle">Have 2 minutes to fill your trunk too?</h2>
+        <p class="col-sub reveal" data-t="questSub">Search three places where old coins like to hide. Choose wisely.</p>
+        <div class="q-actions reveal">
+          <button class="btn brass big-btn" id="qYes" type="button" data-magnet data-t="questYes">Yes, let’s go</button>
+          <button class="btn" id="qSkip" type="button" data-magnet data-t="questSkip">Skip</button>
+        </div>
+      </div>
+      <div class="q-game" id="qGame" hidden>
+        <div class="q-trunk" id="qTrunk"></div>
+        <div class="q-board" id="qBoard">
+          <div class="q-head" id="qHead"></div>
+          <div class="q-map3d" id="qMapWrap"><div class="q-map" id="qMap"></div></div>
+          <div class="q-foot2" id="qFoot" aria-live="polite"></div>
+        </div>
+        <div class="q-end" id="qEnd" hidden></div>
+      </div>
+      <div class="q-modal" id="qModal" hidden role="dialog" aria-modal="true"><div class="q-stage" id="qStage" tabindex="-1"></div></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="about">
+    <div class="wrap">
+      <p class="note reveal" data-t="aboutNote">who is this?</p>
+      <h2 class="big reveal" id="aboutName"></h2>
+      <div class="about-grid">
+        <p class="lead reveal" id="aboutText"></p>
+        <ul class="facts reveal" id="facts"></ul>
+      </div>
+      <p class="hist reveal" id="histHash"></p>
+    </div>
+  </section>
+
+  <!-- THANK YOU + CONTACT -->
+  <section id="thanks" class="thanks">
+    <div class="thanks-glow" aria-hidden="true"></div>
+    <div class="wrap thanks-grid">
+      <div class="thanks-coin reveal">
+        <div class="blank" id="blank" role="img" aria-label="A coin with a line map of Bangladesh on one side and British India on the other, turning over">
+          <span class="blank-in">
+            <span class="bf bf-front" id="coinBd"></span>
+            <span class="bf bf-back" id="coinIn"></span>
+          </span>
+        </div>
+        <p class="note" id="coinNote"></p>
+      </div>
+      <div class="thanks-copy">
+        <p class="note reveal" id="thxNote"></p>
+        <h2 class="big" id="thxTitle"></h2>
+        <p class="thx-text reveal" id="thxText"></p>
+        <p class="sign reveal" id="thxSign"></p>
+        <div class="cta reveal" id="cta"></div>
+      </div>
+    </div>
+    <footer class="foot"><span id="footName"></span><span id="year"></span></footer>
+  </section>
+</main>
+
+<noscript><p style="position:fixed;inset:auto 0 0 0;padding:14px;background:#111;color:#eee;text-align:center">This site needs JavaScript to show the collection.</p></noscript>
+
+<script src="site-config.js"></script>
+<script src="js/content.js"></script>
+<script src="js/data.js"></script>
+<script src="js/maps.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

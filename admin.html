@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Site admin</title>
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<header class="top">
+  <h1>Site <em>admin</em></h1>
+  <div id="who" hidden><span id="whoMail"></span> <button id="logout" class="ghost">Sign out</button></div>
+</header>
+
+<section id="noconfig" class="card" hidden>
+  <h2>Firebase is not connected yet</h2>
+  <p>Open <code>site-config.js</code> and paste your Firebase web-app config into <code>firebase</code>. Steps are in <code>README.md</code>.</p>
+</section>
+
+<section id="login" class="card narrow" hidden>
+  <h2>Sign in</h2>
+  <form id="loginForm">
+    <label>Email<input type="email" id="lEmail" required autocomplete="username"></label>
+    <label>Password<input type="password" id="lPass" required autocomplete="current-password"></label>
+    <button class="primary" type="submit">Sign in</button>
+    <p id="lMsg" class="msg"></p>
+  </form>
+</section>
+
+<nav id="tabs" class="tabs" hidden>
+  <button type="button" data-tab="coins" class="on">Coins</button>
+  <button type="button" data-tab="site">Site text</button>
+  <a href="index.html" target="_blank" rel="noopener">View the site &#8599;</a>
+</nav>
+
+<main id="app" class="grid" hidden>
+  <section class="card">
+    <h2 id="formTitle">Add a coin</h2>
+    <form id="coinForm" autocomplete="off">
+      <input type="hidden" id="f_id">
+      <label>Where does this coin appear?
+        <select id="f_use">
+          <option value="showcase">In my trunk (the special coins everyone sees)</option>
+          <option value="quest">Hidden in the treasure game (visitors can find it)</option>
+        </select>
+      </label>
+
+      <div id="questBox" class="qbox" hidden>
+        <p class="hint">This coin is not shown in the trunk. It waits in one of the five places. If a visitor searches that place, they meet this coin in the lab and must decide what to do with it.</p>
+        <div class="row">
+          <label>Hidden in<select id="f_qLoc"></select></label>
+          <label>The right decision
+            <select id="f_qAnswer"><option value="leave">Leave it as it is</option><option value="restore">Restore it</option></select>
+          </label>
+        </div>
+        <label>Explanation <small>shown after the choice, right or wrong</small>
+          <textarea id="f_qExplain" rows="4" placeholder="e.g. The smooth green-brown layer is stable patina. It protects the metal, so cleaning it would only cause damage."></textarea>
+        </label>
+        <label>What goes wrong if they choose wrongly <small>optional</small>
+          <textarea id="f_qDamage" rows="3" placeholder="Leave empty for an automatic, realistic message based on the material."></textarea>
+        </label>
+      </div>
+
+      <label id="phaseRow">Timeline group <small>the coin sits in this group in the trunk timeline</small>
+        <select id="f_phase"></select>
+        <span class="hint">Rename or add groups in the "Site text" tab, under "Trunk timeline (groups)". Leave on the first option to keep the coin in the same group as the coin before it.</span>
+      </label>
+
+      <label>Coin name *<input id="f_title" required placeholder="e.g. A coin from the old trunk"></label>
+      <div class="row">
+        <label>Era<input id="f_era" list="dl_era" placeholder="e.g. Colonial"></label>
+        <label>Place found (district)<input id="f_place" list="dl_place" placeholder="e.g. Sylhet"></label>
+      </div>
+      <div class="row">
+        <label>Date found<input type="date" id="f_date"></label>
+        <label>Theme <small>small tag shown in the details</small><input id="f_theme" list="dl_theme" placeholder="Pick or type"></label>
+      </div>
+
+      <div class="row">
+        <label>Material <small>optional</small><input id="f_material" list="dl_material" placeholder="e.g. Copper"></label>
+        <label>Year written on the coin <small>optional</small><input id="f_year" list="dl_year" placeholder="e.g. 1857"></label>
+      </div>
+      <div class="row">
+        <label>Denomination <small>optional</small><input id="f_denomination" list="dl_denomination" placeholder="e.g. One pice"></label>
+        <label>Condition <small>optional</small><input id="f_condition" list="dl_condition" placeholder="e.g. Fine"></label>
+      </div>
+      <label>Collection ID <small>optional</small><input id="f_collectionId" list="dl_collectionId" placeholder="e.g. HH-014"><span class="hint" id="idHint"></span></label>
+      <datalist id="dl_era"></datalist><datalist id="dl_place"></datalist><datalist id="dl_theme"></datalist>
+      <datalist id="dl_material"></datalist><datalist id="dl_year"></datalist><datalist id="dl_denomination"></datalist>
+      <datalist id="dl_condition"></datalist><datalist id="dl_collectionId"></datalist>
+
+      <label>Short story <small id="wc">0 words</small>
+        <textarea id="f_story" rows="7" placeholder="60 to 100 words: what it is, how you found it, what you discovered, why it stayed with you."></textarea>
+      </label>
+      <label>Front photo: Google Drive link *<input id="f_front" required placeholder="https://drive.google.com/file/d/…/view"></label>
+      <label>Back photo: Google Drive link<input id="f_back" placeholder="https://drive.google.com/file/d/…/view"></label>
+      <label class="chk"><input type="checkbox" id="f_frame" checked><span>Show the round frame around this photo <small>Untick for coins that are not round, or photos that are already cut out.</small></span></label>
+      <div class="previews"><figure><img id="pv_front" alt=""><figcaption>Front preview</figcaption></figure><figure><img id="pv_back" alt=""><figcaption>Back preview</figcaption></figure></div>
+      <p id="pvMsg" class="msg warn" hidden>A preview could not load. In Google Drive set the file to <b>Share → Anyone with the link → Viewer</b>.</p>
+      <div class="row">
+        <label>Position (1 = first)<input type="number" id="f_order" min="1" step="1" value="1"></label>
+        <label>Status
+          <select id="f_status"><option value="draft">Draft (hidden)</option><option value="published">Published (visible)</option></select>
+        </label>
+      </div>
+      <div class="actions">
+        <button class="primary" type="submit" id="saveBtn">Save coin</button>
+        <button type="button" class="ghost" id="resetBtn">New / clear</button>
+      </div>
+      <p id="fMsg" class="msg"></p>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Your coins <small id="count"></small></h2>
+    <ul id="list" class="list"></ul>
+  </section>
+</main>
+
+<main id="siteApp" class="site-app" hidden>
+  <form id="siteForm" autocomplete="off">
+    <div class="sticky">
+      <p class="lead">Change any wording on the public site. Press <b>Save all text</b>; the site shows the new text the next time someone opens or refreshes it.</p>
+      <div class="actions">
+        <button class="primary" type="submit" id="siteSave">Save all text</button>
+        <button type="button" class="ghost" id="siteDefaults">Put back all original text</button>
+        <span id="siteMsg" class="msg"></span>
+      </div>
+    </div>
+    <div id="siteFields"></div>
+  </form>
+</main>
+
+<script src="site-config.js"></script>
+<script src="js/content.js"></script>
+<script src="js/data.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
